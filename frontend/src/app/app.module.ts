@@ -12,6 +12,9 @@ import { ErrorPageComponent } from './views/pages/error-page/error-page.componen
 
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
+import { FormsModule } from '@angular/forms';
+import {CustomFormsModule} from 'ngx-custom-validators';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +25,8 @@ import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
+    FormsModule,
+    CustomFormsModule,
   ],
   providers: [
     AuthGuard,

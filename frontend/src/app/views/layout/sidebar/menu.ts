@@ -11,6 +11,25 @@ export const MENU: MenuItem[] = [
     link: '/dashboard'
   },
   {
+    label: 'Control Panel',
+    isTitle: true
+  },
+  {
+    label: 'Users',
+    icon: 'users',
+    link: '/admin/users'
+  },
+  {
+    label: 'Roles',
+    icon: 'settings',
+    link: '/admin/roles'
+  },
+  {
+    label: 'Permissions',
+    icon: 'settings',
+    link: '/admin/permissions'
+  },
+  {
     label: 'Web Apps',
     isTitle: true
   },
