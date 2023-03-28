@@ -11,14 +11,14 @@
           <div class="auth-form-wrapper px-4 py-5">
             <a routerLink="." class="nobleui-logo d-block mb-2">Noble<span>UI</span></a>
             <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
-            <form class="forms-sample">
+            <form class="forms-sample" [formGroup]="loginForm" (ngSubmit)="ngSubmit()">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" value="admin@demo.com" ngvemail>
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" value="admin@demo.com" ngvemail>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" autocomplete="current-password" placeholder="Password" [min]="8">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password" autocomplete="current-password" placeholder="Password" [min]="8">
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="authCheck">
@@ -27,7 +27,7 @@
                 </label>
               </div>
               <div>
-                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onLoggedin($event)">Login</button>
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0">Login</button>
               </div>
               <a routerLink="/auth/register" class="d-block mt-3 text-muted">Not a user? Sign up</a>
             </form>

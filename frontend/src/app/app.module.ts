@@ -15,6 +15,10 @@ import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { FormsModule } from '@angular/forms';
 import {CustomFormsModule} from 'ngx-custom-validators';
 
+import { HttpClientModule } from '@angular/common/http';
+
+import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,9 +30,11 @@ import {CustomFormsModule} from 'ngx-custom-validators';
     BrowserAnimationsModule,
     LayoutModule,
     FormsModule,
+    HttpClientModule,
     CustomFormsModule,
   ],
   providers: [
+    httpInterceptorProviders,
     AuthGuard,
     {
       provide: HIGHLIGHT_OPTIONS, // https://www.npmjs.com/package/ngx-highlightjs

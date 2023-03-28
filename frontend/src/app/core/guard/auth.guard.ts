@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Router } from '@angular/router';
-
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    // get access_token from cookies and check if it is expired
     if (localStorage.getItem('isLoggedin')) {
       // logged in so return true
       return true;
