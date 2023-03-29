@@ -12,12 +12,14 @@ import { ErrorPageComponent } from './views/pages/error-page/error-page.componen
 
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CustomFormsModule} from 'ngx-custom-validators';
 
 import { HttpClientModule } from '@angular/common/http';
 
 import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
+
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,15 @@ import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
     BrowserAnimationsModule,
     LayoutModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     CustomFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+    }),
   ],
   providers: [
     httpInterceptorProviders,

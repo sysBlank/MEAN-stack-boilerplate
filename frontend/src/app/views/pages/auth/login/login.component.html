@@ -1,3 +1,9 @@
+<style>
+  .formError {
+    color: red;
+    font-size: 12px;
+  }
+</style>
 <div class="row w-100 mx-0 auth-page">
   <div class="col-md-8 col-xl-6 mx-auto">
     <div class="card">
@@ -14,11 +20,13 @@
             <form class="forms-sample" [formGroup]="loginForm" (ngSubmit)="ngSubmit()">
               <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" value="admin@demo.com" ngvemail>
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" ngvemail>
+                <p class="formError" *ngIf="this.loginForm.get('email')?.errors && this.validationErrors">Invalid Email</p>
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" formControlName="password" autocomplete="current-password" placeholder="Password" [min]="8">
+                <input type="password" class="form-control" id="password" formControlName="password" autocomplete="current-password" placeholder="Password">
+                <p class="formError" *ngIf="this.loginForm.get('password')?.errors && this.validationErrors">Invalid Password</p>
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="authCheck">
