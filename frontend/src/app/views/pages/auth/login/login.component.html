@@ -21,12 +21,12 @@
               <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" ngvemail>
-                <p class="formError" *ngIf="this.loginForm.get('email')?.errors && this.validationErrors">Invalid Email</p>
+                <p class="formError" *ngIf="this.validationErrors">{{this.emailError}}</p>
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" formControlName="password" autocomplete="current-password" placeholder="Password">
-                <p class="formError" *ngIf="this.loginForm.get('password')?.errors && this.validationErrors">Invalid Password</p>
+                <p class="formError" *ngIf="this.validationErrors">{{this.passwordError}}</p>
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="authCheck">

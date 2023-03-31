@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   loginForm!:FormGroup;
   returnUrl: any;
   validationErrors: boolean = false;
-
+  emailError: string = '';
+  passwordError: string = '';
   errorMessage = '';
   roles: string[] = [];
 
@@ -46,6 +47,27 @@ export class LoginComponent implements OnInit {
 
   ngSubmit(): void {
     if(this.loginForm.invalid) {
+      if(this.loginForm.get('email')?.errors?.required) {
+        this.emailError = 'Email is required';
+      }
+      if(this.loginForm.get('email')?.errors?.minlength) {
+        this.emailError = 'Email must be at least 6 characters';
+      }
+      if(this.loginForm.get('email')?.errors?.maxlength) {
+        this.emailError = 'Email must be less than 50 characters';
+      }
+      if(this.loginForm.get('email')?.errors?.pattern) {
+        this.emailError = 'Email must be a valid email';
+      }
+      if(this.loginForm.get('password')?.errors?.required) {
+        this.passwordError = 'Password is required';
+      }
+      if(this.loginForm.get('password')?.errors?.minlength) {
+        this.passwordError = 'Password must be at least 8 characters';
+      }
+      if(this.loginForm.get('password')?.errors?.maxlength) {
+        this.passwordError = 'Password must be less than 32 characters';
+      }
       this.validationErrors = true;
       return;
     }
@@ -59,6 +81,10 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       },
       error: err => {
+        if(err.error.validationErrors) {
+          this.toastr.error(err.error.validationErrors[0].msg, 'Unexpected error!');
+          return;
+        }
         this.toastr.error(err.error.message, 'Unexpected error!');
       }
     });

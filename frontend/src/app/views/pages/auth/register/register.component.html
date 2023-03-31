@@ -1,3 +1,9 @@
+<style>
+  .formError {
+    color: red;
+    font-size: 12px;
+  }
+</style>
 <div class="row w-100 mx-0 auth-page">
   <div class="col-md-8 col-xl-6 mx-auto">
     <div class="card">
@@ -11,18 +17,25 @@
           <div class="auth-form-wrapper px-4 py-5">
             <a routerLink="." class="nobleui-logo d-block mb-2">Noble<span>UI</span></a>
             <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>
-            <form class="forms-sample">
+            <form class="forms-sample" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="mb-3">
-                <label for="exampleInputUsername1" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleInputUsername1" autocomplete="Username" placeholder="Username">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" formControlName="username" placeholder="Username">
+                <p class="formError" *ngIf="this.validationErrors">{{this.usernameError}}</p>
               </div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" ngvemail>
+                <p class="formError" *ngIf="this.validationErrors">{{this.emailError}}</p>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" autocomplete="current-password" placeholder="Password">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Repeat Password</label>
+                <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" placeholder="Password">
+                <p class="formError" *ngIf="this.validationErrors">{{this.passwordError}}</p>
               </div>
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="authCheck">
@@ -31,7 +44,7 @@
                 </label>
               </div>
               <div>
-                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onRegister($event)">Sign up</button>
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0">Sign up</button>
               </div>
               <a routerLink="/auth/login" class="d-block mt-3 text-muted">Already a user? Sign in</a>
             </form>
