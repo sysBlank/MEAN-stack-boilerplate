@@ -6,12 +6,12 @@
     "host":     "localhost",
     "dialect":  "mysql"
   },
-  "test": {
-    "username": "dante",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+  "db4free": {
+    "username": "storyteller_root",
+    "password": "@Lexandru15",
+    "database": "storyteller_dev",
+    "host":     "db4free.net",
+    "dialect":  "mysql"
   },
   "production": {
     "username": "dante",

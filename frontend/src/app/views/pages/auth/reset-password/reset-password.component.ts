@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/_services/auth.service';
 import { StorageService } from 'src/app/core/_services/storage.service';
-import { ToastrService } from 'ngx-toastr';
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
-})
-export class LoginComponent implements OnInit {
 
-  loginForm!:FormGroup;
+@Component({
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
+})
+export class ResetPasswordComponent implements OnInit {
+
+  resetPasswordForm!:FormGroup;
   returnUrl: any;
   validationErrors: boolean = false;
   emailError: string = '';
@@ -27,9 +28,9 @@ export class LoginComponent implements OnInit {
     private storageService: StorageService,
     private toastr: ToastrService
     ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(50)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]]
+    this.resetPasswordForm = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
+      password_confirm: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]]
     })
   }
 
@@ -42,43 +43,36 @@ export class LoginComponent implements OnInit {
   }
 
   get fc() {
-    return this.loginForm.controls;
+    return this.resetPasswordForm.controls;
   }
 
   ngSubmit(): void {
-    if(this.loginForm.invalid) {
-      if(this.loginForm.get('email')?.errors?.required) {
-        this.emailError = 'Email is required';
-      }
-      if(this.loginForm.get('email')?.errors?.minlength) {
-        this.emailError = 'Email must be at least 6 characters';
-      }
-      if(this.loginForm.get('email')?.errors?.maxlength) {
-        this.emailError = 'Email must be less than 50 characters';
-      }
-      if(this.loginForm.get('email')?.errors?.email) {
-        this.emailError = 'Email must be a valid email';
-      }
-      if(this.loginForm.get('password')?.errors?.required) {
+    // If passwords do not mach return error
+    if(this.fc.password.value !== this.fc.password_confirm.value) {
+      this.passwordError = 'Passwords do not match';
+      this.validationErrors = true;
+      return;
+    }
+    if(this.resetPasswordForm.invalid) {
+      if(this.resetPasswordForm.get('password')?.errors?.required) {
         this.passwordError = 'Password is required';
       }
-      if(this.loginForm.get('password')?.errors?.minlength) {
+      if(this.resetPasswordForm.get('password')?.errors?.minlength) {
         this.passwordError = 'Password must be at least 8 characters';
       }
-      if(this.loginForm.get('password')?.errors?.maxlength) {
+      if(this.resetPasswordForm.get('password')?.errors?.maxlength) {
         this.passwordError = 'Password must be less than 32 characters';
       }
       this.validationErrors = true;
       return;
     }
-    const email = this.fc.email.value;
+    const token = this.route.snapshot.params.token;
     const password = this.fc.password.value;
 
-    this.authService.login(email, password).subscribe({
+    this.authService.resetPassword(token, password).subscribe({
       next: data => {
-        this.storageService.setIsLoggedIn(true);
         this.validationErrors = false;
-        this.router.navigate([this.returnUrl]);
+        this.router.navigate(['/auth/login']);
       },
       error: err => {
         if(err.error.validationErrors) {
@@ -93,5 +87,4 @@ export class LoginComponent implements OnInit {
   reloadPage(): void {
     window.location.reload();
   }
-
 }

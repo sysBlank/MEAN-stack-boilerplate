@@ -2,14 +2,15 @@
 const { bcrypt } = require('../tools/bcrypt');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('users', [{
-         username: 'Admin',
-         email: 'admin@example.com',
-         password: await bcrypt('password'),
-         created_at: new Date(),
-         updated_at: new Date(),
-       }], {});
+      username: 'Admin',
+      email: 'admin@example.com',
+      password: await bcrypt('password'),
+      email_verified_at: new Date(),
+      created_at: new Date(),
+      updated_at: new Date(),
+    }], {});
     /**
      * Add seed commands here.
      *
@@ -21,7 +22,7 @@ module.exports = {
     */
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *

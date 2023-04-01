@@ -41,6 +41,37 @@ export class AuthService {
     );
   }
 
+  confirmEmail(token: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'validate-email-token',
+      {
+        token,
+      },
+      httpOptions
+    );
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'forgotpassword',
+      {
+        email,
+      },
+      httpOptions
+    );
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'resetpassword',
+      {
+        token,
+        password,
+      },
+      httpOptions
+    );
+  }
+
   logout(): Observable<any> {
     return this.http.post(AUTH_API + 'logout', { }, httpOptions);
   }

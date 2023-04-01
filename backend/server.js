@@ -1,5 +1,5 @@
 const express = require('express');
-const {urlencoded, json} = require('body-parser');
+const { urlencoded, json } = require('body-parser');
 const cors = require('cors');
 const authRouter = require('./router/auth');
 const apiRouter = require('./router/api');
@@ -21,11 +21,13 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+//On request console log the body
+
 app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use(apiLimiter);
 app.use('/api/auth', authRouter);
-app.use('/api',checkAuth, apiRouter);
+app.use('/api', checkAuth, apiRouter);
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}`);

@@ -11,15 +11,15 @@ async function validateEmail(id) {
                 validated: 0,
             }
         });
-        
-        if(email) { //If no emailToken with validated 0 was found, then skip this and throw error
-            await email.update({validated: 1, transaction: t});
+
+        if (email) { //If no emailToken with validated 0 was found, then skip this and throw error
+            await email.update({ validated: 1, transaction: t });
             const User = await UserModel.findByPk(email.user_id);
-            await User.update({email_verified_at: Date.now(), transaction: t});
+            await User.update({ email_verified_at: Date.now(), transaction: t });
         } else {
-            throw 'Email already validated or not found';
+            throw 'Invalid email address';
         }
-        
+
         await t.commit();  // Commit changes if all successful
         return 'Ok';
     } catch (error) {
