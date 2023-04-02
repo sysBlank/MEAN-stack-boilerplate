@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     HttpClientModule,
     CustomFormsModule,
+    NgbAlertModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

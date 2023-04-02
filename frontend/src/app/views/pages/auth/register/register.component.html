@@ -8,12 +8,15 @@
   <div class="col-md-8 col-xl-6 mx-auto">
     <div class="card">
       <div class="row">
-        <div class="col-md-4 pe-md-0">
+        <div class="auto-form-wrapper px-5 py-5" *ngIf="this.registerSuccess">
+            Account registered successfully. Please check your email to activate your account. If you don't see the email in your inbox, please check your spam folder.
+        </div>
+        <div class="col-md-4 pe-md-0" *ngIf="!this.registerSuccess">
           <div class="auth-side-wrapper" [ngStyle]="{ 'background-image': 'url(https://via.placeholder.com/219x452)' }">
 
           </div>
         </div>
-        <div class="col-md-8 ps-md-0">
+        <div class="col-md-8 ps-md-0" *ngIf="!this.registerSuccess">
           <div class="auth-form-wrapper px-4 py-5">
             <a routerLink="." class="nobleui-logo d-block mb-2">Noble<span>UI</span></a>
             <h5 class="text-muted fw-normal mb-4">Create a free account.</h5>

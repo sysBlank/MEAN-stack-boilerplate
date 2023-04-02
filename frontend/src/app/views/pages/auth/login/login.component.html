@@ -15,6 +15,7 @@
         </div>
         <div class="col-md-8 ps-md-0">
           <div class="auth-form-wrapper px-4 py-5">
+            <ngb-alert *ngIf="this.unconfirmedEmail" [dismissible]="false" [type]="'fill-warning'">Account not verified! <button type="button" class="btn btn-link" (click)="resendVerificationEmail()">Resend verification link!</button></ngb-alert>
             <a routerLink="." class="nobleui-logo d-block mb-2">Noble<span>UI</span></a>
             <h5 class="text-muted fw-normal mb-4">Welcome back! Log in to your account.</h5>
             <form class="forms-sample" [formGroup]="loginForm" (ngSubmit)="ngSubmit()">

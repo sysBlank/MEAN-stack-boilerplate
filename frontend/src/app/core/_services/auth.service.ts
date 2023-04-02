@@ -72,6 +72,17 @@ export class AuthService {
     );
   }
 
+  resendConfirmationEmail(token: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'resetConfirmEmailToken',
+      {
+        token,
+      },
+      httpOptions
+    );
+  }
+
+
   logout(): Observable<any> {
     return this.http.post(AUTH_API + 'logout', { }, httpOptions);
   }

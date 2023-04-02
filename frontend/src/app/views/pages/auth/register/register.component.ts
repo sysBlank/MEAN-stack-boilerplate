@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   usernameError: string = '';
   emailError: string = '';
   passwordError: string = '';
+  registerSuccess: boolean = false;
 
   constructor(private router: Router,
     private fb:FormBuilder,
@@ -92,7 +93,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(username, email, password).subscribe({
       next: data => {
         this.validationErrors = false;
-        this.router.navigate(['/auth/login']);
+        this.registerSuccess = true;
         this.toastr.success('Registration successful');
       },
       error: err => {

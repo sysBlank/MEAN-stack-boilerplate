@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 const routes: Routes = [
   {
     path: '',
@@ -48,6 +49,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbAlertModule,
     RouterModule.forChild(routes)
   ]
 })

@@ -12,6 +12,8 @@ import { StorageService } from 'src/app/core/_services/storage.service';
 })
 export class ConfirmEmailComponent implements OnInit {
 
+  tokenExpired: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -29,11 +31,30 @@ export class ConfirmEmailComponent implements OnInit {
           this.router.navigate(['/']);
         },
         error: err => {
+          console.log(err);
           this.toastr.error(err.error.message);
-          this.router.navigate(['/']);
+          if(err.error.type === 'token_expired') {
+            this.tokenExpired = true;
+          } else {
+            this.router.navigate(['/']);
+          }
         }
       })
     }
+  }
+
+  resendVerificationEmail(): void {
+    const token = this.route.snapshot.params.token;
+    this.authService.resendConfirmationEmail(token).subscribe({
+      next: data => {
+        this.toastr.success('Verification email sent');
+        this.router.navigate(['/auth/login']);
+      },
+      error: err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+      }
+    })
   }
 
   reloadPage(): void {

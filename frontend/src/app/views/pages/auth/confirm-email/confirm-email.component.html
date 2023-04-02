@@ -3,9 +3,11 @@
   <div class="col-md-8 col-xl-6 mx-auto">
     <div class="card">
       <div class="row d-flex">
-        <div class="col-md-12 ps-md-0">
-          <div class="auth-form-wrapper px-4 py-5 d-flex justify-content-center">
-            <div class="spinner-border" role="status">
+        <div class="auth-form-wrapper px-4 py-5 d-flex justify-content-center">
+            <div class="col-md-12 ps-md-0 text-center">
+              <p  *ngIf="this.tokenExpired">Confirmation link has expired!</p>
+              <button *ngIf="this.tokenExpired" type="button" class="btn btn-link" (click)="resendVerificationEmail()">Resend verification link!</button>
+            <div *ngIf="!this.tokenExpired" class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>

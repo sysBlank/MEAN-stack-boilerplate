@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   passwordError: string = '';
   errorMessage = '';
   roles: string[] = [];
+  unconfirmedEmail: boolean = false;
+  loginEmail: string = '';
 
   constructor(
     private router: Router,
@@ -43,6 +45,17 @@ export class LoginComponent implements OnInit {
 
   get fc() {
     return this.loginForm.controls;
+  }
+
+  resendVerificationEmail(): void {
+    this.authService.resendConfirmationEmail(this.loginEmail).subscribe({
+      next: data => {
+        this.toastr.success('Verification email sent');
+      },
+      error: err => {
+        this.toastr.error(err.error.message);
+      }
+    })
   }
 
   ngSubmit(): void {
@@ -71,16 +84,22 @@ export class LoginComponent implements OnInit {
       this.validationErrors = true;
       return;
     }
-    const email = this.fc.email.value;
+    this.loginEmail = this.fc.email.value;
     const password = this.fc.password.value;
 
-    this.authService.login(email, password).subscribe({
+    this.authService.login(this.loginEmail, password).subscribe({
       next: data => {
         this.storageService.setIsLoggedIn(true);
         this.validationErrors = false;
         this.router.navigate([this.returnUrl]);
       },
       error: err => {
+        console.log(err);
+        if(err.error.type === 'email_not_verified') {
+          this.unconfirmedEmail = true;
+          this.toastr.error(err.error.message, 'Unexpected error!');
+          return;
+        }
         if(err.error.validationErrors) {
           this.toastr.error(err.error.validationErrors[0].msg, 'Unexpected error!');
           return;
