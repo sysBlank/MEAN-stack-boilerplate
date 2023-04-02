@@ -1,7 +1,8 @@
 const user = require('../models').User;
 
 exports.index = async (req, res, next) => {
-    // check user permissions to see if they can access this page
+    // Get all users
+    const users = await user.findAll();
     res.status(201).json({
         success: true,
         message: 'Users Index',
