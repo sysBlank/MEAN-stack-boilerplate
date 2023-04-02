@@ -72,12 +72,12 @@ exports.login = async (req, res, next) => {
     if (!foundUser) {
       throw new defaultError("Invalid email or password", 401);
     }
-    //If user exists but email is not verified then return error
-    if (foundUser.email_verified_at == null) {
-      throw new defaultError("User email is not verified", 401);
-    }
     //If user exists and passwords match, create token
     if (foundUser && (await bcrypt_compare(password, foundUser.password))) {
+      //If user exists but email is not verified then return error
+      if (foundUser.email_verified_at == null) {
+        throw new defaultError("User email is not verified", 401, "email_not_verified");
+      }
       // Create token
       const token = jwt.sign(
         { user_id: foundUser._id, email },
@@ -108,6 +108,7 @@ exports.login = async (req, res, next) => {
       success: false,
       message: error.message,
       validationErrors: error.errors,
+      type: error.type,
     });
   }
 
@@ -130,6 +131,12 @@ exports.validateEmailToken = async (req, res, next) => {
     });
     //If no emailToken with validated 0 was found, then skip this and throw error
     if (emailToken) {
+      // check if more than 24h has passed since token was updated
+      const timeDiff = Math.abs(Date.now() - emailToken.updated_at);
+      const diffHours = Math.ceil(timeDiff / (1000 * 60 * 60));
+      if (diffHours > 24) {
+        throw new defaultError("Token has expired.", 401, "token_expired");
+      }
       await emailToken.update({ validated: 1, transaction: t });
       const findUser = await user.findByPk(emailToken.user_id);
       await findUser.update({ email_verified_at: Date.now(), transaction: t });
@@ -149,6 +156,68 @@ exports.validateEmailToken = async (req, res, next) => {
     res.status(error.statusCode || 500).json({
       success: false,
       message: error.message,
+      type: error.type,
+      validationErrors: error.errors,
+    });
+  }
+}
+
+exports.resetConfirmEmailToken = async (req, res, next) => {
+  const token = req.body.token;
+  //Initialize transaction
+  const t = await sequelize.transaction();
+  //Email validation logic starts here
+  try {
+    //Throw validation error if exists
+    validationResult(req).throw();
+    //Find if there is email awaiting validation
+    const emailToken = await emailValidationToken.findOne({
+      where: {
+        token: token,
+        validated: 0,
+      }
+    });
+
+    const userExists = await user.findOne({
+      where: {
+        id: emailToken.user_id,
+      },
+      include: [{
+        model: emailValidationToken
+      }]
+    })
+    // Find user with token
+
+
+    if (!userExists) {
+      throw new defaultError("Invalid Token.", 401);
+    }
+
+    //If no emailToken with validated 0 was found, then skip this and throw error
+    if (emailToken) {
+      //Flag attribute as changed or update wont work
+      userExists.emailValidationToken.changed('updated_at', true);
+      // update emailToken updated_at to current time
+      await userExists.emailValidationToken.update({ token: uuidv4(), updated_at: new Date(), transaction: t })
+      //If no emailToken with validated 0 was found, then skip this and throw error
+      sendValidationEmail(userExists, emailToken.token);
+    } else {
+      throw new defaultError("Invalid Token.", 401);
+    }
+    //Commit changes if successful
+    await t.commit();
+    //Return success response
+    res.status(201).json({
+      success: true,
+    });
+  } catch (error) {
+    //Rollback if error
+    await t.rollback();
+    //Return response with error message
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+      type: error.type,
       validationErrors: error.errors,
     });
   }

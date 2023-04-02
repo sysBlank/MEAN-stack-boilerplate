@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
-const {register, login, validateEmailToken, forgotPassword, resetPassword, sentAccountValidationEmail} = require('../controllers/Auth/AuthController');
-const {loginValidator,accountEmailValidationValidator, resetPasswordValidator, registerValidator, forgotPasswordValidator} = require('../router/validators/validator');
+const { register, login, validateEmailToken, resetConfirmEmailToken, forgotPassword, resetPassword, sentAccountValidationEmail } = require('../controllers/Auth/AuthController');
+const { loginValidator, accountEmailValidationValidator, resetPasswordValidator, registerValidator, forgotPasswordValidator } = require('../router/validators/validator');
 const rateLimit = require("express-rate-limit");
 
 const authLimiter = rateLimit({
@@ -14,7 +14,7 @@ const authLimiter = rateLimit({
 router.route("/register").post([
     authLimiter,
     registerValidator
-],register);
+], register);
 
 //Takes email, password
 router.route("/login").post([
@@ -32,17 +32,21 @@ router.route("/sendAccountValidationMail").post([
 router.route("/forgotpassword").post([
     authLimiter,
     forgotPasswordValidator
-],forgotPassword);
+], forgotPassword);
 
 //takes reset_token, password
 router.route("/resetpassword").post([
     authLimiter,
     resetPasswordValidator
-],resetPassword);
+], resetPassword);
 
 //Takes token as id
 router.route("/validate-email-token").post([
     authLimiter
-],validateEmailToken);
+], validateEmailToken);
+//Takes token as id
+router.route("/resetConfirmEmailToken").post([
+    authLimiter
+], resetConfirmEmailToken);
 
 module.exports = router;
