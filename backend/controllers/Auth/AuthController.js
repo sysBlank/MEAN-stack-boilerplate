@@ -64,7 +64,7 @@ exports.login = async (req, res, next) => {
     //Throw validation error if exists
     validationResult(req).throw();
 
-    const token_time = 7200; // set token to expire in 2h
+    const token_time = 900; // set token to expire in 2h
     const { email, password } = req.body;
     //Validate if user exist in our database
     const foundUser = await user.findOne({ where: { email: email } });
@@ -79,8 +79,11 @@ exports.login = async (req, res, next) => {
         throw new defaultError("User email is not verified", 401, "email_not_verified");
       }
       // Create token
-      const token = jwt.sign(
-        { user_id: foundUser._id, email },
+      const token = jwt.sign({
+        id: foundUser.id,
+        email: foundUser.email,
+        username: foundUser.username
+      },
         process.env.TOKEN_SECRET,
         {
           algorithm: "HS256",
