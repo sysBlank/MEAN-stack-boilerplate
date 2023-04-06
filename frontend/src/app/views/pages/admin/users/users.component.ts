@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-import { Observable, debounceTime, distinctUntilChanged, map, of, tap } from 'rxjs';
+import { Observable, Subject, debounceTime, distinctUntilChanged, map, of, tap } from 'rxjs';
 import { UsersService } from 'src/app/core/_admin/users.service';
 @Component({
   selector: 'app-permissions',
@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit {
     search: ''
   };
 
+  tableFilterUpdate = new Subject<any>();
 
   columns = [{ name: 'ID' }, { name: 'Username' }, { name: 'Email' }];
 
@@ -37,20 +38,32 @@ export class UsersComponent implements OnInit {
       }),
       map(res => res.body.data)
     );
+
+    this.tableFilterUpdate.pipe(
+      debounceTime(400),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.updateFilter(value);
+      });
+
   }
 
   ngOnInit(): void {
 
   }
 
-  updateFilter(event: any) {
+
+  updateFilter(searchText: string) {
     // wait for users to finish typing before updating the value
     // check if timer var exists and is a timer and clear it if its true
-
-      const val = event.target.value.toLowerCase();
+    console.log(searchText)
+      const val = searchText.toLowerCase();
       this.pagingInfo.search = val;
       this.usersService.getUsers(this.pagingInfo)
-      .pipe(map(res => res))
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        map(res => res))
       .subscribe((data) => {
         // Update the rows data with the fetched data
         console.log(data);

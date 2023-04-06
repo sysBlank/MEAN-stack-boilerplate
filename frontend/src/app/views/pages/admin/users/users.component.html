@@ -14,7 +14,8 @@
         type="text"
         style="padding:8px;margin:15px auto;width:30%;"
         placeholder="Type to filter the name column..."
-        (keyup)="updateFilter($event)"
+        [(ngModel)]="this.pagingInfo.search"
+        (ngModelChange)="this.tableFilterUpdate.next($event)"
       />
       <ngx-datatable
       #table
