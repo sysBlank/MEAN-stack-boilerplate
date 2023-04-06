@@ -1,8 +1,10 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const { urlencoded, json } = require('body-parser');
 const cors = require('cors');
 const authRouter = require('./router/auth');
 const apiRouter = require('./router/api');
+const adminApiRouter = require('./router/adminApi');
 const rateLimit = require('express-rate-limit');
 const checkAuth = require('./middleware/check-auth');
 require('dotenv').config();
@@ -22,11 +24,12 @@ app.use(cors({
 }));
 
 //On request console log the body
-
+app.use(cookieParser());
 app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use(apiLimiter);
 app.use('/api/auth', authRouter);
+app.use('/api/admin', checkAuth, adminApiRouter);
 app.use('/api', checkAuth, apiRouter);
 
 app.listen(port, () => {

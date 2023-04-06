@@ -21,7 +21,8 @@ import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AdminModule } from './views/pages/admin/admin.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,8 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     CustomFormsModule,
     NgbAlertModule,
+    NgxDatatableModule,
+    AdminModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

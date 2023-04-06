@@ -1,8 +1,7 @@
 const express = require('express')
-const apiRouter = express.Router();
+const adminApiRouter = express.Router();
 const rateLimit = require("express-rate-limit");
 const checkPermission = require('../middleware/auth-guard');
-const index = require('../controllers/ProfileController').index;
 const getUsers = require('../controllers/admin/UserController').getUsers;
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -10,5 +9,6 @@ const authLimiter = rateLimit({
     message: "Too many attempts, please try again later"
 });
 
-apiRouter.route("/profile").post([authLimiter, checkPermission('user_access')], index); // Test permission check
-module.exports = apiRouter;
+adminApiRouter.route("/users/get").post([authLimiter], getUsers); // Test permission check
+
+module.exports = adminApiRouter;

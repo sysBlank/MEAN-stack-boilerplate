@@ -4,3 +4,35 @@
     <li class="breadcrumb-item active" aria-current="page">Index</li>
   </ol>
 </nav>
+
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Ngx-Datatable</h6>
+        <input
+        type="text"
+        style="padding:8px;margin:15px auto;width:30%;"
+        placeholder="Type to filter the name column..."
+        (keyup)="updateFilter($event)"
+      />
+      <ngx-datatable
+      #table
+      class="bootstrap striped"
+      [rows]="rows | async"
+      [columns]="columns"
+      [externalPaging]="true"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [limit]="10"
+      [rowHeight]="50"
+      (page)="onPageChange($event)"
+      (sort)="onSort($event)"
+      (reorder)="onReorder($event)"
+    >
+    </ngx-datatable>
+      </div>
+    </div>
+  </div>
+</div>

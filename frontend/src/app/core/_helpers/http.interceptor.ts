@@ -34,6 +34,14 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           !req.url.includes('auth/login') &&
           error.status === 401
         ) {
+          // If access_token is missing from request, then clean the storage
+          if (!req.headers.has('Authorization')) {
+            this.storageService.clean();
+          }
+          // If error type is auth_failed, then clean the storage
+          if (error.error.type === 'auth_failed') {
+            this.storageService.clean();
+          }
           return this.handle401Error(req, next);
         }
 

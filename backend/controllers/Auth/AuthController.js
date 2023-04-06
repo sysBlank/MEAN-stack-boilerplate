@@ -64,7 +64,7 @@ exports.login = async (req, res, next) => {
     //Throw validation error if exists
     validationResult(req).throw();
 
-    const token_time = 900; // set token to expire in 2h
+    const token_time = 3600; // set token to expire in 1h
     const { email, password } = req.body;
     //Validate if user exist in our database
     const foundUser = await user.findOne({ where: { email: email } });
