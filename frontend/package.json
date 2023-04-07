@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^9.0.0",
     "@angular/animations": "^14.3.0",
     "@angular/common": "^14.2.10",
     "@angular/compiler": "^14.2.10",
@@ -26,6 +27,7 @@
     "@fullcalendar/interaction": "^5.11.3",
     "@fullcalendar/list": "^5.11.3",
     "@fullcalendar/timegrid": "^5.11.3",
+    "@material/form-field": "^15.0.0-canary.684e33d25.0",
     "@mdi/font": "^7.0.96",
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "@ng-select/ng-select": "^9.1.0",

@@ -14,16 +14,16 @@ import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CustomFormsModule} from 'ngx-custom-validators';
-
 import { HttpClientModule } from '@angular/common/http';
 
 import { httpInterceptorProviders } from './core/_helpers/http.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminModule } from './views/pages/admin/admin.module';
 import { RouterLink } from '@angular/router';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,11 +37,12 @@ import { RouterLink } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CustomFormsModule,
     NgbAlertModule,
     NgxDatatableModule,
+    CustomFormsModule,
     AdminModule,
     RouterLink,
+    NgbModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

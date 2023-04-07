@@ -10,6 +10,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from '../../layout/base/base.component';
 import { AuthGuard } from 'src/app/core/guard/auth.guard';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routes: Routes = [
   {
@@ -47,6 +50,9 @@ const routes: Routes = [
     CommonModule,
     NgxDatatableModule,
     FormsModule,
+    NgbModule,
+    NgSelectModule,
+    NgxMaskModule.forRoot({ validation: true}), // Ngx-mask
     RouterModule.forChild(routes),
   ],
   providers: [

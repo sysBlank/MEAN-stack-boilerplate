@@ -25,4 +25,13 @@ export class UsersService {
       httpOptions
     );
   }
+  editUser(user: number): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'users/edit',
+      {
+        user,
+      },
+      httpOptions
+    );
+  }
 }
