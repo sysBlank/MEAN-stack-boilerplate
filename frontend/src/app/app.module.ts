@@ -23,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AdminModule } from './views/pages/admin/admin.module';
+import { RouterLink } from '@angular/router';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { AdminModule } from './views/pages/admin/admin.module';
     NgbAlertModule,
     NgxDatatableModule,
     AdminModule,
+    RouterLink,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

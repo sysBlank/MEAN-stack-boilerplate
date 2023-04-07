@@ -55,27 +55,12 @@ const routes: Routes = [
         path: 'general',
         loadChildren: () => import('./views/pages/general/general.module').then(m => m.GeneralModule)
       },
+      {
+        path: 'admin',
+        loadChildren: () => import('./views/pages/admin/admin.module').then(m => m.AdminModule)
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       // { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
-    ]
-  },
-  {
-    path: 'admin',
-    component: BaseComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'users',
-        component: UsersComponent,
-      },
-      {
-        path: 'roles',
-        component: RolesComponent,
-      },
-      {
-        path: 'permissions',
-        component: PermissionsComponent,
-      },
     ]
   },
   {

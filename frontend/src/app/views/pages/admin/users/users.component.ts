@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, ChangeDetectorRef, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Observable, Subject, debounceTime, distinctUntilChanged, map, of, tap } from 'rxjs';
 import { UsersService } from 'src/app/core/_admin/users.service';
@@ -8,9 +10,10 @@ import { UsersService } from 'src/app/core/_admin/users.service';
   styleUrls: ['./users.component.scss']
 })
 
-
 export class UsersComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('roleTemplate') roleTemplate!: TemplateRef<any>;
+  @ViewChild('actionTemplate') actionTemplate!: TemplateRef<any>;
   rows: Observable<any>;
 
   pagingInfo = {
@@ -24,10 +27,10 @@ export class UsersComponent implements OnInit {
 
   tableFilterUpdate = new Subject<any>();
 
-  columns = [{ name: 'ID' }, { name: 'Username' }, { name: 'Email' }];
+  columns: any[];
 
   ColumnMode = ColumnMode;
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private _datePipe: DatePipe, private cdr: ChangeDetectorRef) {
     this.rows = this.usersService.getUsers(this.pagingInfo)
     .pipe(
       tap(res => {
@@ -35,6 +38,7 @@ export class UsersComponent implements OnInit {
         console.log(res);
         this.table.count = res.body.total;
         this.table.offset = 0;
+
       }),
       map(res => res.body.data)
     );
@@ -47,6 +51,22 @@ export class UsersComponent implements OnInit {
       });
 
   }
+
+  ngAfterViewInit(): void {
+    this.columns = [ // Must be here or else roles won't show up correctly for some reason connected to TemplateRef
+      { name: 'ID' },
+      { name: 'Username', prop: 'username' },
+      { name: 'Email', prop: 'email' },
+      { name: 'Roles', prop: 'roles', cellTemplate: this.roleTemplate, sortable: false},
+      { name: 'Active', prop: 'active' },
+      { name: 'email_verified_at', prop: 'email_verified_at', pipe: this.datePipe()},
+      { name: 'created_at', prop: 'created_at', pipe: this.datePipe()},
+      { name: 'updated_at', prop: 'updated_at', pipe: this.datePipe()},
+      { name: 'deleted_at', prop: 'deleted_at', pipe: this.datePipe()},
+      { name: 'Actions', prop: 'id', sortable: false, cellTemplate: this.actionTemplate}
+  ];
+  this.cdr.detectChanges(); // detect changes or else ng100 error
+}
 
   ngOnInit(): void {
 
@@ -70,6 +90,7 @@ export class UsersComponent implements OnInit {
         this.rows = of(data.body.data);
         this.table.count = data.body.total;
         this.table.offset = data.body.offset;
+
       });
   }
 
@@ -80,10 +101,10 @@ export class UsersComponent implements OnInit {
     .pipe(map(res => res))
     .subscribe((data) => {
       // Update the rows data with the fetched data
-      console.log(data);
       this.rows = of(data.body.data);
       this.table.count = data.body.total;
       this.table.offset = data.body.offset;
+
     });
   }
   onSort(event: any) {
@@ -102,4 +123,13 @@ export class UsersComponent implements OnInit {
   onReorder(event: any) {
     console.log(event);
   }
+
+  datePipe () {
+    return {transform: (value: any) => this._datePipe.transform(value, 'MM/dd/yyyy hh:mm')};
+  }
+
+  deleteUser(id: number) {
+    console.log('delete user' + ' ' + id);
+  }
+
 }

@@ -9,11 +9,11 @@
   <div class="col-md-12 stretch-card">
     <div class="card">
       <div class="card-body">
-        <h6 class="card-title">Ngx-Datatable</h6>
+        <h6 class="card-title">Users</h6>
         <input
         type="text"
         style="padding:8px;margin:15px auto;width:30%;"
-        placeholder="Type to filter the name column..."
+        placeholder="Search..."
         [(ngModel)]="this.pagingInfo.search"
         (ngModelChange)="this.tableFilterUpdate.next($event)"
       />
@@ -33,6 +33,25 @@
       (reorder)="onReorder($event)"
     >
     </ngx-datatable>
+
+    <ng-template #roleTemplate let-row="row" let-value="value" let-i="index">
+      <ng-template ngFor let-obj [ngForOf]="value">
+        <span class="badge bg-primary">{{ obj.name }}</span>
+        <br />
+      </ng-template>
+    </ng-template>
+    <ng-template #actionTemplate let-row="row" let-value="value" let-i="index" class="m-0">
+        <a
+          class="btn btn-primary btn-sm m-0"
+          [routerLink]="['/admin/users/edit', row.id]"
+          >Edit</a
+        >
+        <a
+          class="btn btn-danger btn-sm m-0"
+          (click)="deleteUser(row.id)"
+          >Delete</a
+        >
+      </ng-template>
       </div>
     </div>
   </div>
