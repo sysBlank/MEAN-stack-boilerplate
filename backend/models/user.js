@@ -18,13 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.belongsToMany(models.Roles, {
         through: models.user_role,
-        foreignKey: 'role_id',
+        foreignKey: 'user_id',
         as: 'roles'
       });
     }
   }
 
-  
+
   User.init({
     username: {
       type: DataTypes.STRING,
@@ -55,9 +55,12 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: "updated_at",
   });
 
-  
 
-User.beforeCreate(async function(model, options, cb) {
+
+  User.beforeCreate(async function (model, options, cb) {
+    model.password = await bcrypt(model.password);
+  });
+  User.beforeUpdate(async function (model, options, cb) {
     model.password = await bcrypt(model.password);
   });
   return User;

@@ -4,6 +4,8 @@ const rateLimit = require("express-rate-limit");
 const checkPermission = require('../middleware/auth-guard');
 const getUsers = require('../controllers/admin/UserController').getUsers;
 const editUser = require('../controllers/admin/UserController').editUser;
+const updateUser = require('../controllers/admin/UserController').updateUser;
+const { updateUserValidator } = require('../router/validators/validator');
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000, // limit each IP to 1000 requests per windowMs
@@ -12,5 +14,6 @@ const authLimiter = rateLimit({
 
 adminApiRouter.route("/users/get").post([authLimiter], getUsers); // Test permission check
 adminApiRouter.route("/users/edit").post([authLimiter], editUser); // Test permission check
+adminApiRouter.route("/users/update").post([authLimiter], updateUser); // Test permission check
 
 module.exports = adminApiRouter;
