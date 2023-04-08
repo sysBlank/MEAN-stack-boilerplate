@@ -4,6 +4,8 @@ const user_role = require('../../models').user_role;
 const { sequelize } = require('../../models')
 const defaultError = require('../../helpers/customErrors');
 const moment = require('moment');
+const { validationResult } = require('express-validator');
+
 exports.getUsers = async (req, res, next) => {
     console.log(req.body);
     const { pageLimit, offset, sortColumn, sortDirection, search } = req.body.pageInfo;
@@ -80,14 +82,12 @@ exports.editUser = async (req, res, next) => {
 }
 
 exports.updateUser = async (req, res, next) => {
-    console.log('request body:')
-    console.log(req.body)
     const newUser = req.body.user;
     // Find user by id
     const t = await sequelize.transaction();
 
     try {
-        /* validationResult(req).throw(); */
+        validationResult(req).throw();
 
         const user = await User.findByPk(newUser.id);
         if (!user) {

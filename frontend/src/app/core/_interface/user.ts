@@ -3,6 +3,7 @@ export interface User {
   username: string;
   email: string;
   roles: any[];
+  password?: string;
   active: boolean;
   allRoles?: any[],
   email_verified_at: string;

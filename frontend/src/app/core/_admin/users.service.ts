@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../_interface/user';
 
 const AUTH_API = 'http://localhost:3000/api/admin/';
 
@@ -28,6 +29,15 @@ export class UsersService {
   editUser(user: number): Observable<any> {
     return this.http.post(
       AUTH_API + 'users/edit',
+      {
+        user,
+      },
+      httpOptions
+    );
+  }
+  updateUser(user: User): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'users/update',
       {
         user,
       },

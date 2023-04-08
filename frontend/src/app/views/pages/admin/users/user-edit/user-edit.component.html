@@ -12,19 +12,19 @@
 
         <h6 class="card-title">User Edit</h6>
 
-        <form class="forms-sample" *ngIf="User | async as user">
+        <form class="forms-sample" *ngIf="this.newUser" (ngSubmit)="updateUser()">
           <div class="row mb-3">
             <div class="col-md-4 mb-3">
               <label for="exampleInputUsername1" class="form-label">Username</label>
-              <input type="text" class="form-control" [(ngModel)]="user.username" id="exampleInputUsername1" name="username" autocomplete="off" placeholder="Username">
+              <input type="text" class="form-control" [(ngModel)]="newUser.username" id="exampleInputUsername1" name="username" autocomplete="off" placeholder="Username">
             </div>
             <div class="col-md-4 mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" [(ngModel)]="user.email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+              <input type="email" [(ngModel)]="newUser.email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
             </div>
             <div class="col-md-4 mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" autocomplete="off" placeholder="Password">
+              <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="newUser.password" name="password" autocomplete="off" placeholder="Password">
             </div>
             <div class="col-md-12">
               <label class="form-label">Roles:</label>
@@ -35,7 +35,7 @@
               [searchable]="false"
               bindLabel="label"
               placeholder="Select people"
-              [(ngModel)]="selectedRoles"
+              [(ngModel)]="newUser.roles"
               name="roles">
             </ng-select>
             </div>
@@ -43,13 +43,13 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label class="form-label">Email Verified At:</label>
-              <input class="form-control mb-4 mb-md-0" [(ngModel)]="user.email_verified_at" name="email_verified_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
+              <input class="form-control mb-4 mb-md-0" [(ngModel)]="newUser.email_verified_at" name="email_verified_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
             </div>
             <div class="col-md-6">
               <label class="form-label">Active:</label>
                   <ng-select [items]="statusItems"
                     [searchable]="false"
-                    [(ngModel)]="selectedStatus" name="active">
+                    [(ngModel)]="newUser.active" name="active">
                   </ng-select>
             </div>
 
@@ -57,15 +57,15 @@
           <div class="row mb-3">
             <div class="col-md-4">
               <label class="form-label">Created At:</label>
-              <input class="form-control mb-4 mb-md-0" name="created_at" [(ngModel)]="user.created_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
+              <input class="form-control mb-4 mb-md-0" [(ngModel)]="newUser.created_at" name="created_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm" readonly/>
             </div>
             <div class="col-md-4">
               <label class="form-label">Updated At:</label>
-              <input class="form-control mb-4 mb-md-0" name="updated_at" [(ngModel)]="user.updated_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
+              <input class="form-control mb-4 mb-md-0" [(ngModel)]="newUser.updated_at" mask="d0/M0/0000 Hh:m0" name="updated_at" placeholder="dd/mm/yyyy hh:mm" readonly/>
             </div>
             <div class="col-md-4">
               <label class="form-label">Deleted At:</label>
-              <input class="form-control mb-4 mb-md-0" name="deleted_at" [(ngModel)]="user.deleted_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
+              <input class="form-control mb-4 mb-md-0" [(ngModel)]="newUser.deleted_at" mask="d0/M0/0000 Hh:m0" name="deleted_at" placeholder="dd/mm/yyyy hh:mm" readonly/>
             </div>
           </div>
           <button type="submit" class="btn btn-primary me-2">Save</button>

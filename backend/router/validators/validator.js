@@ -81,48 +81,16 @@ const registerValidator = [
 ]
 
 const updateUserValidator = [
-    check('email').exists().withMessage('Email is required'),
-    check('email')
+    check('user.email').exists().withMessage('Email is required'),
+    check('user.email')
         .isEmail()
-        .withMessage('Invalid Email')
-        .custom(email => {
-            return new Promise((resolve, reject) => {
-                const exisitngUser = user.findOne({
-                    where: {
-                        email: email,
-                    }
-                }).then(result => {
-                    if (result) {
-                        reject();
-                    }
-                    resolve();
-                })
-            })
-        }).withMessage('Email already exists'),
-    check('username').exists().withMessage('Username is required'),
-    check('username')
+        .withMessage('Invalid Email'),
+    check('user.username').exists().withMessage('Username is required'),
+    check('user.username')
         .isAlphanumeric('en-US')
         .withMessage('Invalid Username')
         .isLength({ min: 5, max: 24 })
-        .withMessage('Username length must be between 5-24 characters')
-        .custom(username => {
-            return new Promise((resolve, reject) => {
-                const exisitngUser = user.findOne({
-                    where: {
-                        username: username,
-                    }
-                }).then(result => {
-                    if (result) {
-                        reject();
-                    }
-                    resolve();
-                })
-            })
-        }).withMessage('Username already exists'),
-    check('email_verified_at').isDate().withMessage('Invalid Date'),
-    check('created_at').isDate().withMessage('Invalid Date'),
-    check('updated_at').isDate().withMessage('Invalid Date'),
-    check('deleted_at').isDate().withMessage('Invalid Date'),
+        .withMessage('Username length must be between 5-24 characters'),
 ]
 
 module.exports = { loginValidator, forgotPasswordValidator, resetPasswordValidator, registerValidator, accountEmailValidationValidator, updateUserValidator };

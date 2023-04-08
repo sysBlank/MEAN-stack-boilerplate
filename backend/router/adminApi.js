@@ -14,6 +14,6 @@ const authLimiter = rateLimit({
 
 adminApiRouter.route("/users/get").post([authLimiter], getUsers); // Test permission check
 adminApiRouter.route("/users/edit").post([authLimiter], editUser); // Test permission check
-adminApiRouter.route("/users/update").post([authLimiter], updateUser); // Test permission check
+adminApiRouter.route("/users/update").post([authLimiter, updateUserValidator], updateUser); // Test permission check
 
 module.exports = adminApiRouter;

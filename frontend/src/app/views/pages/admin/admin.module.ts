@@ -5,7 +5,7 @@ import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from '../../layout/base/base.component';
 import { AuthGuard } from 'src/app/core/guard/auth.guard';
@@ -51,6 +51,7 @@ const routes: Routes = [
     NgxDatatableModule,
     FormsModule,
     NgbModule,
+    ReactiveFormsModule,
     NgSelectModule,
     NgxMaskModule.forRoot({ validation: true}), // Ngx-mask
     RouterModule.forChild(routes),

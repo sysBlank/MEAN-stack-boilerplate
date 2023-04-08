@@ -54,16 +54,16 @@ export class UsersComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.columns = [ // Must be here or else roles won't show up correctly for some reason connected to TemplateRef
-      { name: 'ID' },
-      { name: 'Username', prop: 'username' },
-      { name: 'Email', prop: 'email' },
+      { name: 'ID', prop: 'id'},
+      { name: 'Username', prop: 'username', resizeable: true},
+      { name: 'Email', prop: 'email', minWidth: 200},
       { name: 'Roles', prop: 'roles', cellTemplate: this.roleTemplate, sortable: false},
-      { name: 'Active', prop: 'active' },
+      { name: 'Active', prop: 'active'},
       { name: 'email_verified_at', prop: 'email_verified_at', pipe: this.datePipe()},
       { name: 'created_at', prop: 'created_at', pipe: this.datePipe()},
       { name: 'updated_at', prop: 'updated_at', pipe: this.datePipe()},
       { name: 'deleted_at', prop: 'deleted_at', pipe: this.datePipe()},
-      { name: 'Actions', prop: 'id', sortable: false, cellTemplate: this.actionTemplate}
+      { name: 'Actions', prop: 'id', sortable: false, cellTemplate: this.actionTemplate, minWidth: 160,}
   ];
   this.cdr.detectChanges(); // detect changes or else ng100 error
 }
