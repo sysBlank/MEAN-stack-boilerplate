@@ -13,6 +13,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { httpInterceptorProviders } from 'src/app/core/_helpers/http.interceptor';
 
 const routes: Routes = [
   {
@@ -57,6 +58,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   providers: [
+    httpInterceptorProviders,
+    AuthGuard,
     DatePipe,
   ]
 })

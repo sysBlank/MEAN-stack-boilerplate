@@ -15,12 +15,13 @@ import {
 } from '@angular/common/http';
 import { EventBusService } from '../_shared/event-bus.service';
 import { EventData } from '../_shared/event.class';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
 
-  constructor(private storageService: StorageService, private eventBusService: EventBusService) { }
+  constructor(private storageService: StorageService, private eventBusService: EventBusService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
@@ -37,14 +38,21 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           // If access_token is missing from request, then clean the storage
           if (!req.headers.has('Authorization')) {
             this.storageService.clean();
+            this.router.navigate(['/auth/login']);
           }
           // If error type is auth_failed, then clean the storage
           if (error.error.type === 'auth_failed') {
             this.storageService.clean();
+            this.router.navigate(['/auth/login']);
           }
           return this.handle401Error(req, next);
         }
 
+        if (error.error.type === 'auth_failed') {
+          this.storageService.clean();
+          this.router.navigate(['/auth/login']);
+        }
+        console.log('intercepted')
         return throwError(() => error);
       })
     );

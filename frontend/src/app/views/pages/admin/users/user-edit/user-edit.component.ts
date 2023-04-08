@@ -51,14 +51,12 @@ export class UserEditComponent implements OnInit {
         this.Roles = user.allRoles.map(role => ({ label: role.name, value: role.id }));
       }
       this.newUser = user;
-      // Access other user data properties as needed
       return user;
     });
   }
 
   updateUser() {
     console.log('newUser:', this.newUser);
-      // Format the newUser dates to date object
       this.userService.updateUser(this.newUser).subscribe({
         next: data => {
           console.log(data);
