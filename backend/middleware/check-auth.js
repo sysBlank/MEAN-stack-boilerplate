@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     const token = req.cookies['access_token'];
     const token_time = 3600; // set token to expire in 1h
     if (!token) {
-      throw defaultError('No token provided', 401, 'auth_failed')
+      throw defaultError('Auth failed', 401, 'auth_failed')
     }
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     // Reset the token expiration time

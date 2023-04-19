@@ -36,7 +36,6 @@ export class RolesComponent implements OnInit {
   this.rolesService.getRoles().subscribe(res => {
     console.log(res);
       this.rows = res.body.data;
-
     })
   }
 

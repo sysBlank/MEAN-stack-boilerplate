@@ -80,7 +80,7 @@ const registerValidator = [
         .withMessage('Password length must be between 8-24 characters'),
 ]
 
-const updateUserValidator = [
+const userValidator = [
     check('user.email').exists().withMessage('Email is required'),
     check('user.email')
         .isEmail()
@@ -92,5 +92,10 @@ const updateUserValidator = [
         .isLength({ min: 5, max: 24 })
         .withMessage('Username length must be between 5-24 characters'),
 ]
+const roleValidator = [
+    check('role.name').exists().withMessage('Email is required'),
+    check('role.name').isLength({ min: 3, max: 24 }).withMessage('Role name length must be between 3-24 characters'),
+    check('role.name').isAlphanumeric('en-US').withMessage('Invalid Role name'),
+]
 
-module.exports = { loginValidator, forgotPasswordValidator, resetPasswordValidator, registerValidator, accountEmailValidationValidator, updateUserValidator };
+module.exports = { roleValidator, loginValidator, forgotPasswordValidator, resetPasswordValidator, registerValidator, accountEmailValidationValidator, userValidator };

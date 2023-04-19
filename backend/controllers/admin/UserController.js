@@ -143,3 +143,66 @@ exports.updateUser = async (req, res, next) => {
     }
 
 }
+
+exports.createUser = async (req, res, next) => {
+    const data = req.body.user;
+    const t = await sequelize.transaction();
+    try {
+        validationResult(req).throw();
+        // Create new user and add the roles 
+        const user = await User.create({
+            username: data.username,
+            email: data.email,
+            active: data.active.value,
+            // Format email_verified_at with momentjs
+            email_verified_at: data.email_verified_at ? moment(data.email_verified_at, 'DD/MM/YYYY HH:mm').toDate() : null,
+            // Change password only if password field is not empty
+            password: data.password,
+        }, { transaction: t });
+
+        const roles = data.roles;
+        const newRoles = [];
+
+        roles.forEach(role => {
+            newRoles.push({
+                user_id: user.id,
+                role_id: role.value,
+            })
+        });
+        await user_role.bulkCreate(newRoles, { transaction: t });
+        /* await save_roles.save({ transaction: t }); */
+        // Commit transaction
+        await t.commit();
+        res.status(200).json({
+            success: true,
+            message: 'User created successfully',
+            data: user,
+        });
+    } catch (error) {
+        //If error rollback transaction
+        await t.rollback();
+        //Send back failure response
+        res.status(error.statusCode || 500).json({
+            success: false,
+            message: error.message,
+            validationErrors: error.errors,
+        });
+    }
+}
+
+
+exports.deleteUser = async (req, res, next) => {
+    const user_id = req.params.id;
+    const user = await User.findByPk(user_id);
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: 'User not found',
+        });
+    }
+    await user.destroy();
+    res.status(200).json({
+        success: true,
+        message: 'User deleted successfully',
+    });
+}
