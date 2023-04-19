@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { httpInterceptorProviders } from 'src/app/core/_helpers/http.interceptor';
+import { UserCreateComponent } from './users/user-create/user-create.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'users/edit/:id',
         component: UserEditComponent,
+      },
+      {
+        path: 'users/create',
+        component: UserCreateComponent,
       },
       {
         path: 'roles',
@@ -46,6 +51,7 @@ const routes: Routes = [
     RolesComponent,
     PermissionsComponent,
     UserEditComponent,
+    UserCreateComponent,
   ],
   imports: [
     CommonModule,

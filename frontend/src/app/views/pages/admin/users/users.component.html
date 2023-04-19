@@ -10,13 +10,24 @@
     <div class="card">
       <div class="card-body">
         <h6 class="card-title">Users</h6>
-        <input
-        type="text"
-        style="padding:8px;margin:15px auto;width:30%;"
-        placeholder="Search..."
-        [(ngModel)]="this.pagingInfo.search"
-        (ngModelChange)="this.tableFilterUpdate.next($event)"
-      />
+        <div class="row d-flex justify-content-between">
+          <div class="col-3">
+            <a
+              class="btn btn-primary btn-sm"
+              [routerLink]="['/admin/users/create']"
+              >Create User</a
+            >
+          </div>
+          <div class="col-3">
+            <input
+            type="text"
+            style=""
+            placeholder="Search..."
+            [(ngModel)]="this.pagingInfo.search"
+            (ngModelChange)="this.tableFilterUpdate.next($event)"
+          />
+          </div>
+        </div>
       <ngx-datatable
       #table
       class="bootstrap striped"

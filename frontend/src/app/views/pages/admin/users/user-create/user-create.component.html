@@ -1,0 +1,62 @@
+<nav class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink=".">User Create Page</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Index</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <h6 class="card-title">User Create</h6>
+
+        <form class="forms-sample" (ngSubmit)="createUser()">
+          <div class="row mb-3">
+            <div class="col-md-4 mb-3">
+              <label for="exampleInputUsername1" class="form-label">Username</label>
+              <input type="text" class="form-control" [(ngModel)]="newUser.username" id="exampleInputUsername1" name="username" autocomplete="off" placeholder="Username">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" [(ngModel)]="newUser.email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="newUser.password" name="password" autocomplete="off" placeholder="Password">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Roles:</label>
+              <ng-select
+              [items]="Roles"
+              [multiple]=true
+              [closeOnSelect]="false"
+              [searchable]="false"
+              bindLabel="label"
+              placeholder="Select people"
+              [(ngModel)]="newUser.roles"
+              name="roles">
+            </ng-select>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Email Verified At:</label>
+              <input class="form-control mb-4 mb-md-0" [(ngModel)]="newUser.email_verified_at" name="email_verified_at" mask="d0/M0/0000 Hh:m0" placeholder="dd/mm/yyyy hh:mm"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Active:</label>
+                  <ng-select [items]="statusItems"
+                    [searchable]="false"
+                    [(ngModel)]="newUser.active" name="active">
+                  </ng-select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary me-2">Save</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

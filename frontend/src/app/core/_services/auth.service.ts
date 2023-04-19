@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const AUTH_API = 'http://localhost:3000/api/auth/';
+import { LOGIN_API, REGISTER_API, CONFIRM_EMAIL_API, RESEND_CONFIRMATION_EMAIL_API, RESET_PASSWORD_API, FORGOT_PASSWORD_API, AUTH_API } from '../_helpers/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -20,7 +20,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'login',
+      LOGIN_API,
       {
         email,
         password,
@@ -31,7 +31,7 @@ export class AuthService {
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'register',
+      REGISTER_API,
       {
         username,
         email,
@@ -43,7 +43,7 @@ export class AuthService {
 
   confirmEmail(token: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'validate-email-token',
+      CONFIRM_EMAIL_API,
       {
         token,
       },
@@ -53,7 +53,7 @@ export class AuthService {
 
   forgotPassword(email: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'forgotpassword',
+      FORGOT_PASSWORD_API,
       {
         email,
       },
@@ -63,7 +63,7 @@ export class AuthService {
 
   resetPassword(token: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'resetpassword',
+      RESET_PASSWORD_API,
       {
         token,
         password,
@@ -74,7 +74,7 @@ export class AuthService {
 
   resendConfirmationEmail(token: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'resetConfirmEmailToken',
+      RESEND_CONFIRMATION_EMAIL_API,
       {
         token,
       },

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../_interface/user';
-import { GET_USERS_API, UPDATE_USER_API, EDIT_USER_API, CREATE_USER_API} from '../_helpers/urls';
+import { Role } from '../_interface/role';
+import { GET_ROLES_API, UPDATE_ROLE_API, EDIT_ROLE_API, CREATE_ROLE_API} from '../_helpers/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -13,43 +13,38 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class RolesService {
   constructor(private http: HttpClient) { }
 
-  getUsers(pageInfo: any): Observable<any> {
+  getRoles(): Observable<any> {
+    return this.http.get(
+      GET_ROLES_API,
+      httpOptions
+    );
+  }
+  editRole(role: number): Observable<any> {
     return this.http.post(
-      GET_USERS_API,
+      EDIT_ROLE_API,
       {
-        pageInfo,
+        role,
       },
       httpOptions
     );
   }
-
-  createUser(user: User): Observable<any> {
+  updateRole(role: Role): Observable<any> {
     return this.http.post(
-      CREATE_USER_API,
+      UPDATE_ROLE_API,
       {
-        user,
+        role,
       },
       httpOptions
     );
   }
-
-  editUser(user: number): Observable<any> {
+  createRole(role: Role): Observable<any> {
     return this.http.post(
-      EDIT_USER_API,
+      CREATE_ROLE_API,
       {
-        user,
-      },
-      httpOptions
-    );
-  }
-  updateUser(user: User): Observable<any> {
-    return this.http.post(
-      UPDATE_USER_API,
-      {
-        user,
+        role,
       },
       httpOptions
     );

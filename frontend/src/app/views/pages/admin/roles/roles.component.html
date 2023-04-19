@@ -4,3 +4,126 @@
     <li class="breadcrumb-item active" aria-current="page">Index</li>
   </ol>
 </nav>
+
+
+<div class="row">
+  <div class="col-md-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Roles</h6>
+        <div class="row d-flex justify-content-between">
+          <div class="col-3">
+            <a
+              class="btn btn-primary btn-sm"
+              (click)="addRole()"
+              >Add Role</a
+            >
+          </div>
+          <div class="col-3">
+            <input
+            type="text"
+            placeholder="Type to filter the name column..."
+            (keyup)="updateFilter($event)"
+          />
+          </div>
+        </div>
+
+      <ngx-datatable
+      #table
+      class="bootstrap striped"
+      [rows]="rows"
+      [columns]="columns"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [limit]="10"
+      [rowHeight]="50"
+    >
+    </ngx-datatable>
+
+    <ng-template #roleTemplate let-row="row" let-value="value" let-i="index">
+      <ng-template ngFor let-obj [ngForOf]="value">
+        <span class="badge bg-primary">{{ obj.name }}</span>
+        <br />
+      </ng-template>
+    </ng-template>
+    <ng-template #actionTemplate let-row="row" let-value="value" let-i="index" class="m-0">
+        <a
+          class="btn btn-primary btn-sm m-0"
+          (click)="editRole(row.id)"
+          >Edit</a
+        >
+        <a
+          class="btn btn-danger btn-sm m-0"
+          (click)="deleteRole(row.id)"
+          >Delete</a
+        >
+      </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+    <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label for="exampleInputUsername1" class="form-label">Role Name</label>
+        <input type="text" class="form-control" id="exampleInputUsername1" [(ngModel)]="Role.name" name="name" autocomplete="off" placeholder="Role Name">
+      </div>
+      <div class="col-6">
+        <label for="exampleInputUsername1" class="form-label">Permissions</label>
+        <ng-select
+        [items]="Permissions"
+        [multiple]=true
+        [closeOnSelect]="false"
+        [searchable]="false"
+        bindLabel="label"
+        placeholder="Select Permissions"
+        [(ngModel)]="Role.permissions"
+        name="roles">
+      </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="updateRole()">Save changes</button>
+  </div>
+</ng-template>
+
+<ng-template #createModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+    <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label for="exampleInputUsername1" class="form-label">Role Name</label>
+        <input type="text" class="form-control" id="exampleInputUsername1" [(ngModel)]="Role.name" name="name" autocomplete="off" placeholder="Role Name">
+      </div>
+      <div class="col-6">
+        <label for="exampleInputUsername1" class="form-label">Permissions</label>
+        <ng-select
+        [items]="Permissions"
+        [multiple]=true
+        [closeOnSelect]="false"
+        [searchable]="false"
+        bindLabel="label"
+        placeholder="Select Permissions"
+        [(ngModel)]="Role.permissions"
+        name="roles">
+      </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="createRole()">Save changes</button>
+  </div>
+</ng-template>
