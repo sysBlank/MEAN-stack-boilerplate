@@ -5,7 +5,7 @@ function checkPermission(permissionName) {
     return async (req, res, next) => {
         try {
             // Parse the user's JWT token to get their ID
-            const token = req.headers.authorization.split(' ')[1];
+            const token = req.cookies['access_token'];
             const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
             const userId = decodedToken.id;
 
@@ -27,8 +27,6 @@ function checkPermission(permissionName) {
             });
 
             // Check if the user has the required permission
-            console.log('user:')
-            console.log(user);
             if (user && user.roles.some(role => role.permissions.length > 0)) {
                 // User has the required permission, pass control to the next middleware function
                 return next();

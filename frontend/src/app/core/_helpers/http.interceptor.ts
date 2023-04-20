@@ -52,6 +52,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           this.storageService.clean();
           this.router.navigate(['/auth/login']);
         }
+        // if error status 403, then redirect to 404 page
+        if (error.status === 403) {
+          this.router.navigate(['/error/403']);
+        }
+        if (error.status) {
+          this.router.navigate(['/error/500']);
+        }
         console.log('intercepted')
         return throwError(() => error);
       })
