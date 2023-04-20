@@ -56,7 +56,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         if (error.status === 403) {
           this.router.navigate(['/error/403']);
         }
-        if (error.status) {
+        if (error.status == 0 || error.status > 500) {
           this.router.navigate(['/error/500']);
         }
         console.log('intercepted')
