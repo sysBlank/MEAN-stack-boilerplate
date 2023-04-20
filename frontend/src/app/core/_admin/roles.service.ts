@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Role } from '../_interface/role';
-import { GET_ROLES_API, UPDATE_ROLE_API, EDIT_ROLE_API, CREATE_ROLE_API} from '../_helpers/urls';
+import { GET_ROLES_API, UPDATE_ROLE_API, EDIT_ROLE_API, CREATE_ROLE_API, DELETE_ROLE_API} from '../_helpers/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -43,6 +43,16 @@ export class RolesService {
   createRole(role: Role): Observable<any> {
     return this.http.post(
       CREATE_ROLE_API,
+      {
+        role,
+      },
+      httpOptions
+    );
+  }
+
+  deleteRole(role: number): Observable<any> {
+    return this.http.post(
+      DELETE_ROLE_API,
       {
         role,
       },

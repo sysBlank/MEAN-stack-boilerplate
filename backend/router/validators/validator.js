@@ -98,4 +98,10 @@ const roleValidator = [
     check('role.name').isAlphanumeric('en-US').withMessage('Invalid Role name'),
 ]
 
-module.exports = { roleValidator, loginValidator, forgotPasswordValidator, resetPasswordValidator, registerValidator, accountEmailValidationValidator, userValidator };
+const permissionValidator = [
+    check('permission.name').exists().withMessage('Permission name is required'),
+    check('permission.name').isLength({ min: 3, max: 24 }).withMessage('Permission name length must be between 3-24 characters'),
+    check('permission.name').isAlphanumeric('en-US').withMessage('Invalid Permission name'),
+]
+
+module.exports = { permissionValidator, roleValidator, loginValidator, forgotPasswordValidator, resetPasswordValidator, registerValidator, accountEmailValidationValidator, userValidator };

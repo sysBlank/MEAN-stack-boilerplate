@@ -46,13 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    deleted_at: DataTypes.DATE
   }, {
+    paranoid: true,
     sequelize,
     modelName: 'User',
     tableName: 'users',
     createdAt: "created_at",
     updatedAt: "updated_at",
+    deletedAt: "deleted_at",
   });
 
 

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, ChangeDetectorRef, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, debounceTime, distinctUntilChanged, map, of, tap } from 'rxjs';
 import { UsersService } from 'src/app/core/_admin/users.service';
 @Component({
@@ -30,7 +31,7 @@ export class UsersComponent implements OnInit {
   columns: any[];
 
   ColumnMode = ColumnMode;
-  constructor(private usersService: UsersService, private _datePipe: DatePipe, private cdr: ChangeDetectorRef) {
+  constructor(private usersService: UsersService, private _datePipe: DatePipe, private cdr: ChangeDetectorRef,  private toastr: ToastrService) {
     this.rows = this.usersService.getUsers(this.pagingInfo)
     .pipe(
       tap(res => {
@@ -129,7 +130,23 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    console.log('delete user' + ' ' + id);
+    confirm('Are you sure you want to delete this user?');
+    this.usersService.deleteUser(id)
+    .pipe(map(res => res))
+    .subscribe((data) => {
+      // Update the rows data with the fetched data
+      console.log(data);
+      this.toastr.success('User deleted successfully', 'Success!');
+      this.usersService.getUsers(this.pagingInfo)
+      .pipe(map(res => res))
+      .subscribe((data) => {
+        // Update the rows data with the fetched data
+        console.log(data);
+        this.rows = of(data.body.data);
+        this.table.count = data.body.total;
+        this.table.offset = data.body.offset;
+      });
+    });
   }
 
 }

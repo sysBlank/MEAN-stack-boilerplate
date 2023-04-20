@@ -137,7 +137,22 @@ datePipe() {
 
 
   deleteRole(role_id: number): void {
-
+    confirm('Are you sure you want to delete this role?')
+    this.rolesService.deleteRole(role_id).subscribe({
+      next: data => {
+        console.log(data);
+        this.toastr.success(data.body.message, 'Success!');
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+        if(err.error.validationErrors) {
+          this.toastr.error(err.error.validationErrors[0].msg ?? err.error.validationErrors[0].message, 'Unexpected error!');
+          return;
+        }
+        this.toastr.error(err.error.message, 'Unexpected error!');
+      }
+    });
   }
 
 }

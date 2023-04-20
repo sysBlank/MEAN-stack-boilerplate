@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Role } from '../_interface/role';
-import { GET_PERMISSIONS_API} from '../_helpers/urls';
+import { Permission } from '../_interface/permission';
+import { GET_PERMISSIONS_API, EDIT_PERMISSION_API, CREATE_PERMISSION_API, UPDATE_PERMISSION_API, DELETE_PERMISSION_API} from '../_helpers/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -23,4 +23,45 @@ export class PermissionsService {
       httpOptions
     );
   }
+
+  editPermission(permission: number): Observable<any> {
+    return this.http.post(
+      EDIT_PERMISSION_API,
+      {
+      permission
+      },
+      httpOptions
+    );
+  }
+
+  createPermission(permission: Permission): Observable<any> {
+    return this.http.post(
+      CREATE_PERMISSION_API,
+      {
+        permission
+        },
+      httpOptions
+    );
+  }
+
+  updatePermission(permission: Permission): Observable<any> {
+    return this.http.post(
+      UPDATE_PERMISSION_API,
+      {
+        permission
+        },
+      httpOptions
+    );
+  }
+
+  deletePermission(permission: number): Observable<any> {
+    return this.http.post(
+      DELETE_PERMISSION_API,
+      {
+        permission
+        },
+      httpOptions
+    );
+  }
+
 }

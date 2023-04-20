@@ -192,8 +192,8 @@ exports.createUser = async (req, res, next) => {
 
 
 exports.deleteUser = async (req, res, next) => {
-    const user_id = req.params.id;
-    const user = await User.findByPk(user_id);
+    const id = req.body.user;
+    const user = await User.findByPk(id);
     if (!user) {
         return res.status(404).json({
             success: false,

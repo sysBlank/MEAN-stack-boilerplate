@@ -106,3 +106,13 @@ exports.createRole = async (req, res, next) => {
         });
     }
 }
+
+exports.deleteRole = async (req, res, next) => {
+    const id = req.body.role;
+    const role = await Roles.findByPk(id);
+    await role.destroy();
+    res.status(200).json({
+        success: true,
+        message: 'Role Deleted',
+    });
+}
