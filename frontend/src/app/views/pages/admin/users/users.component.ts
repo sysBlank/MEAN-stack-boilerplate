@@ -130,7 +130,9 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    confirm('Are you sure you want to delete this user?');
+     if(!confirm('Are you sure you want to delete this user?')) {
+      return;
+    }
     this.usersService.deleteUser(id)
     .pipe(map(res => res))
     .subscribe((data) => {

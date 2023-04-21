@@ -128,7 +128,9 @@ datePipe() {
 
 
   deletePermission(permission_id: number): void {
-    confirm('Are you sure you want to delete this permission?');
+    if(!confirm('Are you sure you want to delete this permission?')) {
+      return;
+    }
     this.permissionsService.deletePermission(permission_id).subscribe({
       next: data => {
         this.toastr.success(data.body.message, 'Success!');
