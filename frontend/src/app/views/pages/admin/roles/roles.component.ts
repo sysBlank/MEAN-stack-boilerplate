@@ -137,7 +137,9 @@ datePipe() {
 
 
   deleteRole(role_id: number): void {
-    confirm('Are you sure you want to delete this role?')
+     if(!confirm('Are you sure you want to delete this role?')) {
+      return;
+    }
     this.rolesService.deleteRole(role_id).subscribe({
       next: data => {
         console.log(data);
