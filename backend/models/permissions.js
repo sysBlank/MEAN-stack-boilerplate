@@ -14,7 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Permissions.init({
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true,
+        len: [3, 20]
+      }
+    },
   }, {
     sequelize,
     modelName: 'permissions',

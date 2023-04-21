@@ -7,6 +7,7 @@ const apiRouter = require('./router/api');
 const adminApiRouter = require('./router/adminApi');
 const rateLimit = require('express-rate-limit');
 const checkAuth = require('./middleware/check-auth');
+const isAdmin = require('./middleware/is-admin');
 require('dotenv').config();
 
 const app = express();
@@ -29,7 +30,7 @@ app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use(apiLimiter);
 app.use('/api/auth', authRouter);
-app.use('/api/admin', checkAuth, adminApiRouter);
+app.use('/api/admin', checkAuth, isAdmin, adminApiRouter);
 app.use('/api', checkAuth, apiRouter);
 
 app.listen(port, () => {

@@ -28,6 +28,7 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN,
         defaultValue: 1,
+        allowNull: false,
       },
       password: {
         type: Sequelize.STRING,

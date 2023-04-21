@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   passwordResetToken.init({
     reset_token: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -26,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     token_expiration_date: {
       type: DataTypes.DATE,
       allowNull: false,
+      validate: {
+        isDate: true
+      }
     }
   }, {
     sequelize,

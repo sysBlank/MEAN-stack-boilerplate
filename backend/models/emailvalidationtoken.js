@@ -18,15 +18,21 @@ module.exports = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
+      references: {
+        model: "users",
+        key: "id"
+      }
     },
     validated: {
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
+      allowNull: false,
     }
   }, {
     sequelize,

@@ -30,17 +30,32 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isAlphanumeric: true,
+        len: [3, 20]
+      }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+        len: [3, 50]
+      }
     },
-    email_verified_at: DataTypes.DATE,
+    email_verified_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      validate: {
+        isDate: true
+      }
+    },
     remember_token: DataTypes.STRING,
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: 1,
+      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
@@ -56,11 +71,10 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: "deleted_at",
   });
 
-
-
   User.beforeCreate(async function (model, options, cb) {
     model.password = await bcrypt(model.password);
   });
+
   User.beforeUpdate(async function (model, options, cb) {
     model.password = await bcrypt(model.password);
   });

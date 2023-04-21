@@ -26,18 +26,23 @@ function checkPermission(permissionName) {
                 ]
             });
 
+            // Check if user is active
+            if (!user.active) {
+                return res.status(401).json({ message: 'Your account has been deactivated' });
+            }
+
             // Check if the user has the required permission
             if (user && user.roles.some(role => role.permissions.length > 0)) {
                 // User has the required permission, pass control to the next middleware function
                 return next();
             } else {
                 // User does not have the required permission, return an HTTP 403 Forbidden response
-                return res.status(403).json({ error: 'You do not have permission to access this resource' });
+                return res.status(403).json({ message: 'You do not have permission to access this resource' });
             }
         } catch (err) {
             // JWT token is invalid or user is not found in the database
             console.log(err);
-            return res.status(401).json({ error: 'You are not authorized to access this resource' });
+            return res.status(401).json({ message: 'Unexpected error' });
         }
     };
 }

@@ -21,6 +21,7 @@ module.exports = {
       validated: {
         type: Sequelize.BOOLEAN,
         defaultValue: 0,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,

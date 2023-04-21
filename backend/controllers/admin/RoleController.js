@@ -7,32 +7,49 @@ const moment = require('moment');
 const { validationResult } = require('express-validator');
 
 exports.getRoles = async (req, res, next) => {
-    const roles = await Roles.findAll();
-    res.status(200).json({
-        success: true,
-        message: 'Roles Index',
-        data: roles,
-    });
+    try {
+        const roles = await Roles.findAll();
+        res.status(200).json({
+            success: true,
+            message: 'Roles Index',
+            data: roles,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error Getting Roles',
+            error: error,
+        });
+    }
 }
 
 exports.editRole = async (req, res, next) => {
-    const role_id = req.body.role;
-    // get all permissions
-    const _permissions = await permissions.findAll();
-    const role = await Roles.findByPk(role_id, {
-        include: [
-            {
-                model: permissions,
-                as: 'permissions',
-            }
-        ]
-    });
-    res.status(200).json({
-        success: true,
-        message: 'Role Edit',
-        data: role,
-        permissions: _permissions,
-    });
+    try {
+        const role_id = req.body.role;
+        // get all permissions
+        const _permissions = await permissions.findAll();
+        const role = await Roles.findByPk(role_id, {
+            include: [
+                {
+                    model: permissions,
+                    as: 'permissions',
+                }
+            ]
+        });
+        res.status(200).json({
+            success: true,
+            message: 'Role Edit',
+            data: role,
+            permissions: _permissions,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error Editing Role',
+            error: error,
+        });
+    }
 }
 
 exports.updateRole = async (req, res, next) => {
@@ -108,11 +125,19 @@ exports.createRole = async (req, res, next) => {
 }
 
 exports.deleteRole = async (req, res, next) => {
-    const id = req.body.role;
-    const role = await Roles.findByPk(id);
-    await role.destroy();
-    res.status(200).json({
-        success: true,
-        message: 'Role Deleted',
-    });
+    try {
+        const id = req.body.role;
+        const role = await Roles.findByPk(id);
+        await role.destroy();
+        res.status(200).json({
+            success: true,
+            message: 'Role Deleted',
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Role Delete Failed',
+            error: error,
+        });
+    }
 }
