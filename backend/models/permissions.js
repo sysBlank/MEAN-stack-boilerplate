@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'permissions',
+    tableName: 'permissions',
     createdAt: "created_at",
     updatedAt: "updated_at",
   });

@@ -4,7 +4,6 @@ const defaultError = require('../helpers/customErrors');
 module.exports = (req, res, next) => {
   try {
     const token = req.cookies['access_token'];
-    const token_time = 3600; // set token to expire in 1h
     if (!token) {
       throw defaultError('Auth failed', 401, 'auth_failed')
     }
@@ -19,10 +18,10 @@ module.exports = (req, res, next) => {
       process.env.TOKEN_SECRET,
       {
         algorithm: "HS256",
-        expiresIn: "1h"
+        expiresIn: process.env.TOKEN_EXPIRATION
       }
     );
-    res.cookie("access_token", newToken, { maxAge: token_time * 1000, httpOnly: true });
+    res.cookie("access_token", newToken, { maxAge: process.env.TOKEN_EXPIRATION * 1000, httpOnly: true, secure: true });
     next();
   } catch (error) {
     return res.status(401).json({

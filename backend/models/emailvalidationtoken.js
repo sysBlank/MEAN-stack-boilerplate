@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id:  {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'emailValidationToken',
+    tableName: 'emailvalidationtoken',
     createdAt: "created_at",
     updatedAt: "updated_at",
   });
